@@ -1,1 +1,9 @@
-# Basic classes that can be used as a template of starting poing for an OpenGL project
+# Basic classes that can be used as a template of starting point for an OpenGL project
+
+## Classes:
+
+- Shader
+- Texture
+- Camera
+- Window
+- Mesh
