@@ -4,7 +4,7 @@ Camera::Camera(glm::vec3 position, glm::vec3 up, GLfloat yaw, GLfloat pitch, GLf
     front = glm::vec3(.0f, .0f, -1.0f);
     this->update();
 }
-
+glm::vec3 Camera::getCameraPosition() { return position; }
 void Camera::update()
 {
     front.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
@@ -50,6 +50,7 @@ void Camera::mouseControl(glm::vec2 change)
     yaw += change.x;
     pitch += change.y;
 
-    if(pitch>89.0f) pitch=89.0f;
+    if (pitch > 89.0f)
+        pitch = 89.0f;
     this->update();
 }
