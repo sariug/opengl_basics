@@ -7,10 +7,11 @@
 #include "Shader.h"
 #include "Window.h"
 #include "Camera.h"
+#include "Light.h"
 #include "Texture.h"
 
 const float toRadians = glm::pi<float>() / 180.0f;
-GLuint shader, uniformModel, uniformProjection, uniformView;
+GLuint shader, uniformModel, uniformProjection, uniformView, uniformAmbientColor, uniformAmbientIntensity;
 GLfloat deltaTime =.0f;
 GLfloat lastTime = .0f;
 
@@ -20,6 +21,7 @@ std::vector<Texture*> textureList;
 
 Window *mainwindow = new Window;
 Camera *camera;
+Light *mainLight;
 // Vertex Shader
 static const char *vShader = R"(shaders/shader.vert)";
 
@@ -66,7 +68,7 @@ int main()
 	createShaders();
 
 	camera = new Camera(glm::vec3(.0f, .0f, .0f), glm::vec3(.0f, 1.0f, .0f), 0.0f, .0f, 5.0f, 1.0f);
-
+	mainLight =  new Light(.0f,.0f, 1.0f, 0.2);
 	textureList.push_back(new Texture("assets/photo1.png"));
 	textureList.back()->LoadTexture();
 	textureList.push_back(new Texture("assets/photo2.png"));
@@ -91,6 +93,9 @@ int main()
 		uniformModel = shaderList[0]->GetModelLocation();
 		uniformProjection = shaderList[0]->GetModelProjection();
 		uniformView = shaderList[0]->GetModelView();
+		uniformAmbientColor = shaderList[0]->GetAmbientColorLocation();
+		uniformAmbientIntensity = shaderList[0]->GetAmbientIntensityLocation();
+
 		glm::mat4 model;
 		model = glm::translate(model, glm::vec3(.0f, 0.0f, -2.0f));
 		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
@@ -99,6 +104,8 @@ int main()
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniformMatrix4fv(uniformProjection, 1, GL_FALSE, glm::value_ptr(projection));
 		glUniformMatrix4fv(uniformView, 1, GL_FALSE, glm::value_ptr(camera->calculateViewMatrix()));
+		mainLight->UseLight(uniformAmbientColor,uniformAmbientIntensity);
+		
 		textureList[0]->UseTexture();
 		meshList[0]->renderMesh();
 		model = glm::mat4();

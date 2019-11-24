@@ -16,7 +16,7 @@ void Shader::CreateFromFile(const char *vertexLocation, const char *fragmentLoca
     std::string fragmentString = ReadFile(fragmentLocation);
     const char *vertexCode = vertexString.c_str();
     const char *fragCode = fragmentString.c_str();
-    CompileShader(vertexCode,fragCode);
+    CompileShader(vertexCode, fragCode);
 }
 
 std::string Shader::ReadFile(const char *fileLocation)
@@ -48,7 +48,9 @@ GLuint Shader::GetModelLocation()
 {
     return uniformModel;
 }
-GLuint Shader::GetModelView(){return uniformView;}
+GLuint Shader::GetModelView() { return uniformView; }
+GLuint Shader::GetAmbientColorLocation() { return uniformAmbientColor; }
+GLuint Shader::GetAmbientIntensityLocation() { return uniformAmbientIntensity; }
 void Shader::UseShader()
 {
     glUseProgram(shaderID);
@@ -107,6 +109,8 @@ void Shader::CompileShader(const char *vertexCode, const char *fragmentCode)
     uniformModel = glGetUniformLocation(shaderID, "model");
     uniformProjection = glGetUniformLocation(shaderID, "projection");
     uniformView = glGetUniformLocation(shaderID, "view");
+    uniformAmbientColor = glGetUniformLocation(shaderID, "directionalLight.color");
+    uniformAmbientIntensity = glGetUniformLocation(shaderID, "directionalLight.ambientIntensity");
 }
 void Shader::AddShader(GLuint theProgram, const char *shaderCode, GLuint shaderType)
 {
