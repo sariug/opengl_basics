@@ -7,3 +7,5 @@
 - Camera
 - Window
 - Mesh
+- Light
+- Material
